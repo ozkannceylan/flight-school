@@ -43,3 +43,27 @@ def test_lab08_reference_check():
 
 def test_lab09_reference_check():
     assert run_check("labs/lab09_time_scaling/check.py", reference=True) == 0
+
+
+def test_lab10_reference_check():
+    assert run_check("labs/lab10_set_belief/check.py", reference=True) == 0
+
+
+def test_lab11_reference_check():
+    assert run_check("labs/lab11_bayes/check.py", reference=True) == 0
+
+
+def test_lab12_reference_check():
+    assert run_check("labs/lab12_kf_pf/check.py", reference=True) == 0
+
+
+def test_lab13_reference_check():
+    assert run_check("labs/lab13_mcl/check.py", reference=True) == 0
+
+
+def test_lab14_reference_check():
+    assert run_check("labs/lab14_mapping/check.py", reference=True) == 0
+
+
+def test_lab15_reference_check():
+    assert run_check("labs/lab15_slam/check.py", reference=True) == 0

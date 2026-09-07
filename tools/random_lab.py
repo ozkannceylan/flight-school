@@ -20,6 +20,12 @@ BUILT = {
     "07": "lab07_rrt",
     "08": "lab08_flatness",
     "09": "lab09_time_scaling",
+    "10": "lab10_set_belief",
+    "11": "lab11_bayes",
+    "12": "lab12_kf_pf",
+    "13": "lab13_mcl",
+    "14": "lab14_mapping",
+    "15": "lab15_slam",
 }
 
 

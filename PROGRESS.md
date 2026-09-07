@@ -23,12 +23,12 @@ through `flightlab.resolve` until you fill them.
 
 ## Phase 3 — Estimation
 
-- [ ] **Lab 10** — Where Could I Possibly Be? *(not built yet)*
-- [ ] **Lab 11** — Prior, Likelihood, Posterior *(not built yet)*
-- [ ] **Lab 12** — Two Ways to Carry a Belief *(not built yet)*
-- [ ] **Lab 13** — Known Map, Unknown Pose *(not built yet)*
-- [ ] **Lab 14** — Known Pose, Unknown Map *(not built yet)*
-- [ ] **Lab 15** — Both at Once *(not built yet)*
+- [ ] **Lab 10** — Where Could I Possibly Be?
+- [ ] **Lab 11** — Prior, Likelihood, Posterior
+- [ ] **Lab 12** — Two Ways to Carry a Belief
+- [ ] **Lab 13** — Known Map, Unknown Pose
+- [ ] **Lab 14** — Known Pose, Unknown Map
+- [ ] **Lab 15** — Both at Once
 
 ## Phase 4 — Vision, Learning, RL
 

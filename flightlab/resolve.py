@@ -282,6 +282,140 @@ _register(
 )
 
 
+def _smoke_lab10(mod: ModuleType) -> bool:
+    from flightlab.worlds import rooms_lab10, start_lab10
+
+    grid = rooms_lab10()
+    bel = __import__("numpy").zeros((grid.rows, grid.cols), dtype=bool)
+    bel[start_lab10()] = True
+    out = mod.predict(bel, grid, (0, 1))
+    return bool(out.any()) and out.shape == bel.shape
+
+
+def _smoke_lab11(mod: ModuleType) -> bool:
+    import numpy as np
+
+    from flightlab.worlds import corridor_lab11
+
+    doors, _ = corridor_lab11()
+    bel = np.full(doors.size, 1.0 / doors.size)
+    bel = mod.predict(bel)
+    like = mod.likelihood(doors, True)
+    post = mod.update(bel, like)
+    return abs(float(post.sum()) - 1.0) < 1e-6
+
+
+def _smoke_lab12(mod: ModuleType) -> bool:
+    import numpy as np
+
+    A = np.eye(6)
+    mu, P = mod.kf_predict(np.zeros(6), np.eye(6), A, 0.01 * np.eye(6))
+    mu, P = mod.kf_update(mu, P, np.eye(6)[:3], np.zeros(3), np.eye(3) * 0.1)
+    return mu.size == 6 and np.isfinite(mu).all() and P.shape == (6, 6)
+
+
+def _smoke_lab13(mod: ModuleType) -> bool:
+    import numpy as np
+
+    from flightlab.worlds import office_lab13
+
+    rng = np.random.default_rng(0)
+    grid = office_lab13()
+    parts = mod.uniform_particles(8, grid, rng)
+    out = mod.motion_update(parts, np.array([0.2, 0.0]), rng)
+    return out.shape == (8, 3) and np.isfinite(out).all()
+
+
+def _smoke_lab14(mod: ModuleType) -> bool:
+    import numpy as np
+
+    inc = mod.inverse_beam((6, 9), np.array([1.5, 1.5, 0.0]), 2.0, 0.0)
+    out = mod.logodds_update(np.zeros((6, 9)), inc)
+    return out.shape == (6, 9) and np.isfinite(out).all()
+
+
+def _smoke_lab15(mod: ModuleType) -> bool:
+    import numpy as np
+
+    e = np.asarray(mod.edge_error(np.zeros(3), np.zeros(3), np.zeros(3)), dtype=float)
+    poses = mod.compose_odometry(2, [(0, 1, np.array([1.0, 0.0, 0.0]), np.eye(3))])
+    return e.size == 3 and np.isfinite(e).all() and poses.shape == (2, 3)
+
+
+_register(
+    LabSpec(
+        key="lab10",
+        number="10",
+        student_path=ROOT / "labs/lab10_set_belief/lab.py",
+        reference_module="reference.lab10_set_belief",
+        smoke=_smoke_lab10,
+    ),
+    "10",
+    "lab10_set_belief",
+    "set_belief",
+)
+_register(
+    LabSpec(
+        key="lab11",
+        number="11",
+        student_path=ROOT / "labs/lab11_bayes/lab.py",
+        reference_module="reference.lab11_bayes",
+        smoke=_smoke_lab11,
+    ),
+    "11",
+    "lab11_bayes",
+    "bayes",
+)
+_register(
+    LabSpec(
+        key="lab12",
+        number="12",
+        student_path=ROOT / "labs/lab12_kf_pf/lab.py",
+        reference_module="reference.lab12_kf_pf",
+        smoke=_smoke_lab12,
+    ),
+    "12",
+    "lab12_kf_pf",
+    "kf_pf",
+)
+_register(
+    LabSpec(
+        key="lab13",
+        number="13",
+        student_path=ROOT / "labs/lab13_mcl/lab.py",
+        reference_module="reference.lab13_mcl",
+        smoke=_smoke_lab13,
+    ),
+    "13",
+    "lab13_mcl",
+    "mcl",
+)
+_register(
+    LabSpec(
+        key="lab14",
+        number="14",
+        student_path=ROOT / "labs/lab14_mapping/lab.py",
+        reference_module="reference.lab14_mapping",
+        smoke=_smoke_lab14,
+    ),
+    "14",
+    "lab14_mapping",
+    "mapping",
+)
+_register(
+    LabSpec(
+        key="lab15",
+        number="15",
+        student_path=ROOT / "labs/lab15_slam/lab.py",
+        reference_module="reference.lab15_slam",
+        smoke=_smoke_lab15,
+    ),
+    "15",
+    "lab15_slam",
+    "slam",
+)
+
+
 def _banner(spec: LabSpec, reason: str) -> None:
     msg = (
         f"using reference {spec.key} — your Lab {spec.number} isn't done or isn't passing"

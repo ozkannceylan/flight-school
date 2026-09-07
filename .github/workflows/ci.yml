@@ -29,3 +29,9 @@ jobs:
           python labs/lab07_rrt/check.py --reference
           python labs/lab08_flatness/check.py --reference
           python labs/lab09_time_scaling/check.py --reference
+          python labs/lab10_set_belief/check.py --reference
+          python labs/lab11_bayes/check.py --reference
+          python labs/lab12_kf_pf/check.py --reference
+          python labs/lab13_mcl/check.py --reference
+          python labs/lab14_mapping/check.py --reference
+          python labs/lab15_slam/check.py --reference

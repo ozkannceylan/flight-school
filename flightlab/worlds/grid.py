@@ -39,6 +39,18 @@ class OccupancyGrid:
                 yield r, c
 
 
+def occupancy_from_ascii(lines: list[str]) -> OccupancyGrid:
+    """``#`` wall; everything else is free. ``S`` / ``G`` / ``D`` count as free."""
+    rows = [list(s.rstrip("\n")) for s in lines if s.strip() != ""]
+    h, w = len(rows), max(len(r) for r in rows)
+    occ = np.ones((h, w), dtype=bool)
+    for r, row in enumerate(rows):
+        for c, ch in enumerate(row):
+            if ch != "#":
+                occ[r, c] = False
+    return OccupancyGrid(occ)
+
+
 def grid_from_ascii(lines: list[str]) -> tuple[OccupancyGrid, Cell, Cell]:
     """``#`` wall, ``.`` free, ``S`` start, ``G`` goal."""
     rows = [list(s.rstrip("\n")) for s in lines if s.strip() != ""]

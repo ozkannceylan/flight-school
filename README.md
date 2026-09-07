@@ -42,6 +42,17 @@ make check08 && make lab08
 make check09 && make lab09
 ```
 
+Phase 3 (set belief → Bayes → KF/PF → MCL → mapping → pose-graph SLAM):
+
+```bash
+make check10 && make lab10
+make check11 && make lab11
+make check12 && make lab12
+make check13 && make lab13
+make check14 && make lab14
+make check15 && make lab15
+```
+
 `python -m pytest` is the same core suite as `make test`.
 
 ## How a lab works
@@ -70,5 +81,5 @@ tests/         core + every reference check
 docs/          ARCHITECTURE, LECTURE_LAB_MAP, PLAN, BACKLOG
 ```
 
-Built labs right now: **00–09** (Phase 1 control + Phase 2 planning). The rest
+Built labs right now: **00–15** (control + planning + estimation). The rest
 of the map is in [`docs/LECTURE_LAB_MAP.md`](docs/LECTURE_LAB_MAP.md).

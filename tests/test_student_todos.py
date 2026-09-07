@@ -43,3 +43,27 @@ def test_lab08_student_todos_are_red():
 
 def test_lab09_student_todos_are_red():
     assert run_check("labs/lab09_time_scaling/check.py", reference=False) == 1
+
+
+def test_lab10_student_todos_are_red():
+    assert run_check("labs/lab10_set_belief/check.py", reference=False) == 1
+
+
+def test_lab11_student_todos_are_red():
+    assert run_check("labs/lab11_bayes/check.py", reference=False) == 1
+
+
+def test_lab12_student_todos_are_red():
+    assert run_check("labs/lab12_kf_pf/check.py", reference=False) == 1
+
+
+def test_lab13_student_todos_are_red():
+    assert run_check("labs/lab13_mcl/check.py", reference=False) == 1
+
+
+def test_lab14_student_todos_are_red():
+    assert run_check("labs/lab14_mapping/check.py", reference=False) == 1
+
+
+def test_lab15_student_todos_are_red():
+    assert run_check("labs/lab15_slam/check.py", reference=False) == 1
