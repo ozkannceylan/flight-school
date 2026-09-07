@@ -12,6 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 BUILT = {
     "00": "lab00_hello_state",
     "01": "lab01_planar_dynamics",
+    "02": "lab02_into_3d",
+    "03": "lab03_cascade_pd",
+    "04": "lab04_lqr",
 }
 
 

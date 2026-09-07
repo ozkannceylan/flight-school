@@ -23,11 +23,13 @@ make check00        # your lab.py, partial-credit table, <5 s
 make lab00          # re-render; resolve prefers your code once it smokes
 ```
 
-Lab 01 is the plant:
+Then the rest of Phase 1 (plant → cascade PD → LQR; 3D is a side quest):
 
 ```bash
-make check01
-make lab01
+make check01 && make lab01
+make check03 && make lab03
+make check04 && make lab04
+make check02 && make lab02
 ```
 
 `python -m pytest` is the same core suite as `make test`.
@@ -58,5 +60,5 @@ tests/         core + every reference check
 docs/          ARCHITECTURE, LECTURE_LAB_MAP, PLAN, BACKLOG
 ```
 
-Built labs right now: **00** and **01**. The rest of the map is in
+Built labs right now: **00–04** (Phase 1 control). The rest of the map is in
 [`docs/LECTURE_LAB_MAP.md`](docs/LECTURE_LAB_MAP.md).

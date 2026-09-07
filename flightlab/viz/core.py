@@ -17,7 +17,8 @@ import numpy as np
 from matplotlib.animation import FuncAnimation, PillowWriter
 from matplotlib.patches import Circle
 
-from flightlab.dynamics.planar_quad import IY, IZ, PlanarQuadrotor
+from flightlab.dynamics.planar_quad import ITH, IY, IZ, PlanarQuadrotor
+from flightlab.dynamics.quad3d import IPHI, ITH as ITH3, IX, IY as IY3, IZ as IZ3, rotation_zyx
 
 ROOT = Path(__file__).resolve().parents[2]
 MEDIA = ROOT / "media"
@@ -270,3 +271,167 @@ def animate_planar_quad(
     save_thumb(fig, dest.with_name(dest.stem + "_thumb.png"))
     plt.close(fig)
     return dest
+
+
+def _quad3d_arms(x: np.ndarray, arm: float = 0.25) -> tuple[np.ndarray, np.ndarray]:
+    R = rotation_zyx(float(x[IPHI]), float(x[ITH3]), float(x[5]))
+    p = np.array([x[IX], x[IY3], x[IZ3]], dtype=float)
+    right = p + R @ np.array([0.0, arm, 0.0])
+    left = p + R @ np.array([0.0, -arm, 0.0])
+    front = p + R @ np.array([arm, 0.0, 0.0])
+    back = p + R @ np.array([-arm, 0.0, 0.0])
+    return np.vstack([left, right]), np.vstack([back, front])
+
+
+def animate_quad3d(
+    t: np.ndarray,
+    xs: np.ndarray,
+    thetas_sweep: np.ndarray,
+    rate_norm: np.ndarray,
+    *,
+    path: Path | str | None = None,
+    title: str = "altitude hold  +  gimbal lock",
+    fps: int = 16,
+) -> Path:
+    """Two-panel gif: 3D vehicle on the left, Euler-rate blow-up on the right."""
+    dest = Path(path) if path else ensure_media() / "lab02.gif"
+    fig = plt.figure(figsize=(9.2, 4.4))
+    ax3 = fig.add_subplot(1, 2, 1, projection="3d")
+    axr = fig.add_subplot(1, 2, 2)
+    ax3.set_xlabel("x")
+    ax3.set_ylabel("y")
+    ax3.set_zlabel("z")
+    ax3.set_title("first closed loop")
+    span = 1.6
+    ax3.set_xlim(-span, span)
+    ax3.set_ylim(-span, span)
+    z0 = float(xs[:, IZ3].min()) - 0.4
+    z1 = float(xs[:, IZ3].max()) + 0.6
+    ax3.set_zlim(max(0.0, z0), z1)
+    (arm_y,) = ax3.plot([], [], [], color="#1f4e79", lw=3)
+    (arm_x,) = ax3.plot([], [], [], color="#1f4e79", lw=3)
+    (trail,) = ax3.plot([], [], [], color="#1f4e79", alpha=0.35, lw=1.0)
+
+    axr.plot(np.degrees(thetas_sweep), rate_norm, color="#c0392b", lw=2.0)
+    (dot,) = axr.plot([np.degrees(thetas_sweep[0])], [rate_norm[0]], "o", color="#c0392b")
+    axr.axvline(90.0, color="#7f8c8d", ls="--", lw=1.0)
+    axr.set_xlabel("pitch θ [deg]")
+    axr.set_ylabel("|Euler rates|  for ω=[0,0,1]")
+    axr.set_title("representation blows up at 90°")
+    axr.grid(True, alpha=0.3)
+    fig.suptitle(title)
+    fig.tight_layout()
+
+    n = min(len(t), len(thetas_sweep))
+    idx = np.linspace(0, n - 1, min(n, fps * 4)).astype(int)
+
+    def update(i: int):
+        yy, xx = _quad3d_arms(xs[min(i, len(xs) - 1)])
+        arm_y.set_data(yy[:, 0], yy[:, 1])
+        arm_y.set_3d_properties(yy[:, 2])
+        arm_x.set_data(xx[:, 0], xx[:, 1])
+        arm_x.set_3d_properties(xx[:, 2])
+        trail.set_data(xs[: i + 1, IX], xs[: i + 1, IY3])
+        trail.set_3d_properties(xs[: i + 1, IZ3])
+        j = min(i, len(thetas_sweep) - 1)
+        dot.set_data([np.degrees(thetas_sweep[j])], [rate_norm[j]])
+        return arm_y, arm_x, trail, dot
+
+    anim = FuncAnimation(fig, update, frames=idx, blit=False, interval=1000 / fps)
+    save_gif(anim, dest, fps=fps)
+    update(int(idx[-1]))
+    save_thumb(fig, dest.with_name(dest.stem + "_thumb.png"))
+    plt.close(fig)
+    return dest
+
+
+def gain_sweep_figure(
+    results: list[tuple[str, np.ndarray, np.ndarray]],
+    *,
+    path: Path | str | None = None,
+) -> Path:
+    """3×3 (or n) side-by-side y(t) flights from a gain sweep."""
+    dest = Path(path) if path else ensure_media() / "lab03_thumb.png"
+    n = len(results)
+    cols = 3
+    rows = int(np.ceil(n / cols))
+    fig, axes = plt.subplots(rows, cols, figsize=(9.0, 2.8 * rows), sharex=True, sharey=True)
+    axes = np.atleast_2d(axes)
+    for k, (label, t, y) in enumerate(results):
+        ax = axes[k // cols, k % cols]
+        ax.plot(t, y, color="#1f4e79", lw=1.6)
+        ax.axhline(0.0, color="#95a5a6", lw=0.8)
+        ax.set_title(label, fontsize=9)
+        ax.grid(True, alpha=0.25)
+        if k // cols == rows - 1:
+            ax.set_xlabel("t [s]")
+        if k % cols == 0:
+            ax.set_ylabel("y [m]")
+    for k in range(n, rows * cols):
+        axes[k // cols, k % cols].axis("off")
+    fig.suptitle("gain sweep — sluggish / tuned / unstable")
+    fig.tight_layout()
+    save_thumb(fig, dest)
+    gif = dest.with_name("lab03.gif")
+    # One-frame gif so `make lab03` still emits the contract artifact.
+    anim = FuncAnimation(fig, lambda _i: [], frames=[0], blit=False)
+    save_gif(anim, gif, fps=4)
+    plt.close(fig)
+    return gif
+
+
+def lqr_vs_pd_figure(
+    t: np.ndarray,
+    xs_pd: np.ndarray,
+    xs_lqr: np.ndarray,
+    us_pd: np.ndarray,
+    us_lqr: np.ndarray,
+    *,
+    path: Path | str | None = None,
+) -> Path:
+    dest_thumb = Path(path) if path else ensure_media() / "lab04_thumb.png"
+    fig, (ax_y, ax_u) = plt.subplots(1, 2, figsize=(8.8, 3.8))
+    (pd_y,) = ax_y.plot([], [], "--", color="#c0392b", lw=1.8, label="PD (Lab 03)")
+    (lq_y,) = ax_y.plot([], [], color="#1f4e79", lw=2.0, label="LQR")
+    ax_y.set_xlabel("t [s]")
+    ax_y.set_ylabel("y [m]")
+    ax_y.set_title("same disturbance")
+    ax_y.set_xlim(t[0], t[-1])
+    ypad = 0.1
+    ymin = min(xs_pd[:, IY].min(), xs_lqr[:, IY].min()) - ypad
+    ymax = max(xs_pd[:, IY].max(), xs_lqr[:, IY].max()) + ypad
+    ax_y.set_ylim(ymin, ymax)
+    ax_y.legend(frameon=False)
+    ax_y.grid(True, alpha=0.3)
+
+    T_pd = us_pd[:, 0] + us_pd[:, 1]
+    T_lq = us_lqr[:, 0] + us_lqr[:, 1]
+    (pd_u,) = ax_u.plot([], [], "--", color="#c0392b", lw=1.6, label="PD thrust")
+    (lq_u,) = ax_u.plot([], [], color="#1f4e79", lw=1.8, label="LQR thrust")
+    ax_u.set_xlabel("t [s]")
+    ax_u.set_ylabel("T = u1+u2 [N]")
+    ax_u.set_title("the math spends effort differently")
+    ax_u.set_xlim(t[0], t[-1])
+    tmin = min(T_pd.min(), T_lq.min()) - 0.2
+    tmax = max(T_pd.max(), T_lq.max()) + 0.2
+    ax_u.set_ylim(tmin, tmax)
+    ax_u.legend(frameon=False)
+    ax_u.grid(True, alpha=0.3)
+    fig.suptitle("LQR vs your hand-tuned PD")
+    fig.tight_layout()
+
+    def update(i: int):
+        pd_y.set_data(t[: i + 1], xs_pd[: i + 1, IY])
+        lq_y.set_data(t[: i + 1], xs_lqr[: i + 1, IY])
+        pd_u.set_data(t[: i + 1], T_pd[: i + 1])
+        lq_u.set_data(t[: i + 1], T_lq[: i + 1])
+        return pd_y, lq_y, pd_u, lq_u
+
+    idx = np.linspace(0, len(t) - 1, min(len(t), 48)).astype(int)
+    anim = FuncAnimation(fig, update, frames=idx, blit=True, interval=50)
+    gif = dest_thumb.with_name("lab04.gif")
+    save_gif(anim, gif, fps=16)
+    update(int(idx[-1]))
+    save_thumb(fig, dest_thumb)
+    plt.close(fig)
+    return gif

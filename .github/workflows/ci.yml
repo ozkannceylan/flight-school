@@ -21,3 +21,6 @@ jobs:
           python -m pytest -q
           python labs/lab00_hello_state/check.py --reference
           python labs/lab01_planar_dynamics/check.py --reference
+          python labs/lab02_into_3d/check.py --reference
+          python labs/lab03_cascade_pd/check.py --reference
+          python labs/lab04_lqr/check.py --reference

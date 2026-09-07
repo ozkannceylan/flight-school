@@ -9,9 +9,9 @@ through `flightlab.resolve` until you fill them.
 
 - [ ] **Lab 00** — Hello, State
 - [ ] **Lab 01** — Six States and Two Thrusts
-- [ ] **Lab 02** — Into 3D, and the First Loop *(not built yet)*
-- [ ] **Lab 03** — Cascade PD *(not built yet)*
-- [ ] **Lab 04** — Let the Math Tune It *(not built yet)*
+- [ ] **Lab 02** — Into 3D, and the First Loop
+- [ ] **Lab 03** — Cascade PD
+- [ ] **Lab 04** — Let the Math Tune It
 
 ## Phase 2 — Planning
 

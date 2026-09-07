@@ -100,6 +100,84 @@ _register(
 )
 
 
+def _smoke_lab02(mod: ModuleType) -> bool:
+    plant = mod.Quad3D()
+    rates = np.asarray(plant.euler_zyx_rates(0.0, 0.0, np.array([1.0, 0.0, 0.0])), dtype=float)
+    if rates.size != 3 or not np.isfinite(rates).all():
+        return False
+    xdot = np.asarray(plant.f(plant.reset(), plant.hover_input()), dtype=float).reshape(-1)
+    if xdot.size != 12 or not np.isfinite(xdot).all():
+        return False
+    u = np.asarray(plant.altitude_loop(plant.reset(), 2.0), dtype=float).reshape(-1)
+    return u.size == 4 and np.isfinite(u).all()
+
+
+def _smoke_lab03(mod: ModuleType) -> bool:
+    from flightlab.dynamics import PlanarQuadrotor
+
+    plant = PlanarQuadrotor()
+    A, B = mod.linearize(plant.f, plant.reset(), plant.hover_input())
+    if np.asarray(A).shape != (6, 6) or np.asarray(B).shape != (6, 2):
+        return False
+    u = np.asarray(mod.cascade_pd(plant, plant.reset(), plant.reset()[:2], mod.DEFAULT_GAINS))
+    return u.reshape(-1).size == 2 and np.isfinite(u).all()
+
+
+def _smoke_lab04(mod: ModuleType) -> bool:
+    from flightlab.control import linearize
+    from flightlab.dynamics import PlanarQuadrotor
+
+    plant = PlanarQuadrotor()
+    Q, R = mod.design_QR()
+    if np.asarray(Q).shape != (6, 6) or np.asarray(R).shape != (2, 2):
+        return False
+    A, B = linearize(plant.f, plant.reset(), plant.hover_input())
+    K, _P = mod.lqr(A, B, Q, R)
+    if np.asarray(K).shape != (2, 6):
+        return False
+    u = np.asarray(mod.lqr_control(plant.reset(), plant.reset(), plant.hover_input(), K))
+    return u.reshape(-1).size == 2 and np.isfinite(u).all()
+
+
+_register(
+    LabSpec(
+        key="lab02",
+        number="02",
+        student_path=ROOT / "labs/lab02_into_3d/lab.py",
+        reference_module="reference.lab02_into_3d",
+        smoke=_smoke_lab02,
+    ),
+    "02",
+    "lab02_into_3d",
+    "into_3d",
+    "quad3d",
+)
+_register(
+    LabSpec(
+        key="lab03",
+        number="03",
+        student_path=ROOT / "labs/lab03_cascade_pd/lab.py",
+        reference_module="reference.lab03_cascade_pd",
+        smoke=_smoke_lab03,
+    ),
+    "03",
+    "lab03_cascade_pd",
+    "cascade_pd",
+)
+_register(
+    LabSpec(
+        key="lab04",
+        number="04",
+        student_path=ROOT / "labs/lab04_lqr/lab.py",
+        reference_module="reference.lab04_lqr",
+        smoke=_smoke_lab04,
+    ),
+    "04",
+    "lab04_lqr",
+    "lqr",
+)
+
+
 def _banner(spec: LabSpec, reason: str) -> None:
     msg = (
         f"using reference {spec.key} — your Lab {spec.number} isn't done or isn't passing"
