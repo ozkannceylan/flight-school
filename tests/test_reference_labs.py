@@ -95,3 +95,7 @@ def test_lab21_reference_check():
 
 def test_lab22_reference_check():
     assert run_check("labs/lab22_rl/check.py", reference=True) == 0
+
+
+def test_lab23_reference_check():
+    assert run_check("labs/lab23_red_team/check.py", reference=True) == 0

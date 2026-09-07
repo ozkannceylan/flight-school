@@ -6,16 +6,17 @@ BACKEND ?= numpy
 .PHONY: help test check check-ref demo random progress \
 	lab00 lab01 lab02 lab03 lab04 lab05 lab06 lab07 lab08 lab09 \
 	lab10 lab11 lab12 lab13 lab14 lab15 \
-	lab16 lab17 lab18 lab19 lab20 lab21 lab22 \
+	lab16 lab17 lab18 lab19 lab20 lab21 lab22 lab23 \
 	check00 check01 check02 check03 check04 check05 check06 check07 check08 check09 \
 	check10 check11 check12 check13 check14 check15 \
-	check16 check17 check18 check19 check20 check21 check22 \
+	check16 check17 check18 check19 check20 check21 check22 check23 \
 	demo00 demo01 demo02 demo03 demo04 demo05 demo06 demo07 demo08 demo09 \
 	demo10 demo11 demo12 demo13 demo14 demo15 \
-	demo16 demo17 demo18 demo19 demo20 demo21 demo22 \
+	demo16 demo17 demo18 demo19 demo20 demo21 demo22 demo23 \
 	hint00 hint01 hint02 hint03 hint04 hint05 hint06 hint07 hint08 hint09 \
 	hint10 hint11 hint12 hint13 hint14 hint15 \
-	hint16 hint17 hint18 hint19 hint20 hint21 hint22
+	hint16 hint17 hint18 hint19 hint20 hint21 hint22 hint23 \
+	studypack screencast
 
 help:
 	@echo "flight-school"
@@ -25,6 +26,8 @@ help:
 	@echo "  make checkNN       grade YOUR lab.py"
 	@echo "  make check-ref     all reference tables"
 	@echo "  make random        pick an unchecked lab"
+	@echo "  make studypack     NotebookLM packs → build/"
+	@echo "  make screencast    README → narration beats → build/"
 
 test:
 	$(PYTHON) -m pytest -q
@@ -55,10 +58,11 @@ check-ref:
 	$(PYTHON) labs/lab20_overfit/check.py --reference
 	$(PYTHON) labs/lab21_cnn/check.py --reference
 	$(PYTHON) labs/lab22_rl/check.py --reference
+	$(PYTHON) labs/lab23_red_team/check.py --reference
 
 demo: demo00 demo01 demo02 demo03 demo04 demo05 demo06 demo07 demo08 demo09 \
 	demo10 demo11 demo12 demo13 demo14 demo15 \
-	demo16 demo17 demo18 demo19 demo20 demo21 demo22
+	demo16 demo17 demo18 demo19 demo20 demo21 demo22 demo23
 
 lab00 demo00:
 	$(PYTHON) labs/lab00_hello_state/demo.py
@@ -108,6 +112,8 @@ check21:
 	BACKEND=$(BACKEND) $(PYTHON) labs/lab21_cnn/check.py
 lab22 demo22:
 	$(PYTHON) labs/lab22_rl/demo.py
+lab23 demo23:
+	$(PYTHON) labs/lab23_red_team/demo.py
 
 check00:
 	$(PYTHON) labs/lab00_hello_state/check.py
@@ -153,6 +159,8 @@ check20:
 	$(PYTHON) labs/lab20_overfit/check.py
 check22:
 	$(PYTHON) labs/lab22_rl/check.py
+check23:
+	$(PYTHON) labs/lab23_red_team/check.py
 
 hint00:
 	$(PYTHON) labs/lab00_hello_state/check.py --hints
@@ -200,6 +208,14 @@ hint21:
 	$(PYTHON) labs/lab21_cnn/check.py --hints
 hint22:
 	$(PYTHON) labs/lab22_rl/check.py --hints
+hint23:
+	$(PYTHON) labs/lab23_red_team/check.py --hints
+
+studypack:
+	$(PYTHON) tools/studypack.py
+
+screencast:
+	$(PYTHON) tools/screencast.py --all
 
 progress:
 	@sed -n '1,80p' PROGRESS.md

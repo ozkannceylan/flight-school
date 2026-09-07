@@ -42,3 +42,4 @@ jobs:
           python labs/lab20_overfit/check.py --reference
           python labs/lab21_cnn/check.py --reference
           python labs/lab22_rl/check.py --reference
+          python labs/lab23_red_team/check.py --reference

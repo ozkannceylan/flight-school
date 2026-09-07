@@ -33,6 +33,7 @@ BUILT = {
     "20": "lab20_overfit",
     "21": "lab21_cnn",
     "22": "lab22_rl",
+    "23": "lab23_red_team",
 }
 
 

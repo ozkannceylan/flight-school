@@ -29,6 +29,7 @@ from flightlab.viz.vision import (
     flow_quiver_figure,
     learning_curves_figure,
     mlp_flight_figure,
+    red_team_figure,
     rl_curve_figure,
 )
 
@@ -50,6 +51,7 @@ __all__ = [
     "kf_pf_figure",
     "learning_curves_figure",
     "mlp_flight_figure",
+    "red_team_figure",
     "rl_curve_figure",
     "slam_before_after",
     "ensure_media",

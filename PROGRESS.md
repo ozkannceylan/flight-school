@@ -42,4 +42,4 @@ through `flightlab.resolve` until you fill them.
 
 ## Phase 5 — Reflection
 
-- [ ] **Lab 23** — Red-Team Your Own Stack *(not built yet)*
+- [ ] **Lab 23** — Red-Team Your Own Stack

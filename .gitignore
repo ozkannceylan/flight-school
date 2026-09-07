@@ -12,10 +12,13 @@ build/
 .venv/
 venv/
 
-# Generated media (keep thumbnails)
+# Generated media (keep thumbnails). gifs/mp4 are phase-boundary regen only.
 media/*.gif
 media/*.mp4
 !media/*_thumb.png
+
+# NotebookLM packs + screencast beats (tools/studypack.py, tools/screencast.py)
+# `build/` is already ignored above. Do not commit packs.
 
 # Editor / OS
 .DS_Store

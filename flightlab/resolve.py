@@ -475,6 +475,14 @@ def _smoke_lab22(mod: ModuleType) -> bool:
     return mu.size == 3 and np.all(std > 0)
 
 
+def _smoke_lab23(mod: ModuleType) -> bool:
+    import numpy as np
+
+    e0 = float(mod.texture_energy(np.zeros((8, 8))))
+    e1 = float(mod.texture_energy(np.linspace(0.0, 1.0, 64).reshape(8, 8)))
+    return np.isfinite(e0) and np.isfinite(e1) and e1 >= e0
+
+
 _register(
     LabSpec(
         key="lab16",
@@ -558,6 +566,18 @@ _register(
     "22",
     "lab22_rl",
     "rl",
+)
+_register(
+    LabSpec(
+        key="lab23",
+        number="23",
+        student_path=ROOT / "labs/lab23_red_team/lab.py",
+        reference_module="reference.lab23_red_team",
+        smoke=_smoke_lab23,
+    ),
+    "23",
+    "lab23_red_team",
+    "red_team",
 )
 
 

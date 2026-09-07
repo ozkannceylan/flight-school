@@ -110,6 +110,14 @@ def test_lab22_falls_back_to_reference_lqr():
     assert np.isfinite(r)
 
 
+def test_lab23_falls_back_to_reference_analysis():
+    lab23 = get("lab23")
+    text = lab23.failure_analysis()
+    assert "labs/lab17_optical_flow/check.py" in text
+    e = lab23.texture_energy(__import__("numpy").zeros((6, 6)))
+    assert e == 0.0
+
+
 def test_unknown_lab_raises():
     import pytest
 

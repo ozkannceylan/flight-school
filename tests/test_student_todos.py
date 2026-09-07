@@ -95,3 +95,7 @@ def test_lab21_student_todos_are_red():
 
 def test_lab22_student_todos_are_red():
     assert run_check("labs/lab22_rl/check.py", reference=False) == 1
+
+
+def test_lab23_student_todos_are_red():
+    assert run_check("labs/lab23_red_team/check.py", reference=False) == 1

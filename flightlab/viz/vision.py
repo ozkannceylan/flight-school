@@ -167,3 +167,53 @@ def rl_curve_figure(
     save_thumb(fig, dest)
     plt.close(fig)
     return dest
+
+
+def red_team_figure(
+    img_ok: np.ndarray,
+    pts: np.ndarray,
+    flow,
+    img_bad: np.ndarray,
+    refused: bool,
+    *,
+    path: Path | str | None = None,
+) -> Path:
+    dest = Path(path) if path else ensure_media() / "lab23_thumb.png"
+    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(7.4, 3.4))
+    ax0.imshow(img_ok, cmap="gray", vmin=0, vmax=1, origin="upper")
+    if flow is not None:
+        fl = np.asarray(flow, dtype=float)
+        ax0.quiver(
+            pts[:, 0],
+            pts[:, 1],
+            fl[:, 0],
+            fl[:, 1],
+            color="#d35400",
+            angles="xy",
+            scale_units="xy",
+            scale=1,
+            width=0.004,
+        )
+    ax0.set_title("texture — trusted")
+    ax1.imshow(img_bad, cmap="gray", vmin=0, vmax=1, origin="upper")
+    ax1.set_title("REFUSED" if refused else "should have refused")
+    if refused:
+        ax1.text(
+            0.5,
+            0.5,
+            "REFUSED",
+            transform=ax1.transAxes,
+            ha="center",
+            va="center",
+            color="#c0392b",
+            fontsize=16,
+            fontweight="bold",
+        )
+    for ax in (ax0, ax1):
+        ax.set_xticks([])
+        ax.set_yticks([])
+    fig.suptitle("an assumption you now refuse")
+    fig.tight_layout()
+    save_thumb(fig, dest)
+    plt.close(fig)
+    return dest
