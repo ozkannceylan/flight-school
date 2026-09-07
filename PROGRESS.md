@@ -15,11 +15,11 @@ through `flightlab.resolve` until you fill them.
 
 ## Phase 2 — Planning
 
-- [ ] **Lab 05** — Search, Visualized *(not built yet)*
-- [ ] **Lab 06** — Heuristics, Honest and Otherwise *(not built yet)*
-- [ ] **Lab 07** — Sampling Your Way Out *(not built yet)*
-- [ ] **Lab 08** — Plan in Flat Space, Fly in Real Space *(not built yet)*
-- [ ] **Lab 09** — Time Is the Free Variable *(not built yet)*
+- [ ] **Lab 05** — Search, Visualized
+- [ ] **Lab 06** — Heuristics, Honest and Otherwise
+- [ ] **Lab 07** — Sampling Your Way Out
+- [ ] **Lab 08** — Plan in Flat Space, Fly in Real Space
+- [ ] **Lab 09** — Time Is the Free Variable
 
 ## Phase 3 — Estimation
 

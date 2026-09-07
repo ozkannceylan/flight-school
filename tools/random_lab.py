@@ -15,6 +15,11 @@ BUILT = {
     "02": "lab02_into_3d",
     "03": "lab03_cascade_pd",
     "04": "lab04_lqr",
+    "05": "lab05_search_visualized",
+    "06": "lab06_heuristics",
+    "07": "lab07_rrt",
+    "08": "lab08_flatness",
+    "09": "lab09_time_scaling",
 }
 
 

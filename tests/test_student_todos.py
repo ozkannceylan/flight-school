@@ -23,3 +23,23 @@ def test_lab03_student_todos_are_red():
 
 def test_lab04_student_todos_are_red():
     assert run_check("labs/lab04_lqr/check.py", reference=False) == 1
+
+
+def test_lab05_student_todos_are_red():
+    assert run_check("labs/lab05_search_visualized/check.py", reference=False) == 1
+
+
+def test_lab06_student_todos_are_red():
+    assert run_check("labs/lab06_heuristics/check.py", reference=False) == 1
+
+
+def test_lab07_student_todos_are_red():
+    assert run_check("labs/lab07_rrt/check.py", reference=False) == 1
+
+
+def test_lab08_student_todos_are_red():
+    assert run_check("labs/lab08_flatness/check.py", reference=False) == 1
+
+
+def test_lab09_student_todos_are_red():
+    assert run_check("labs/lab09_time_scaling/check.py", reference=False) == 1

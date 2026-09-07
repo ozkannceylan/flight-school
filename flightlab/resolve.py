@@ -178,6 +178,110 @@ _register(
 )
 
 
+def _smoke_lab05(mod: ModuleType) -> bool:
+    from flightlab.worlds import maze_lab05
+
+    q = mod.QueueFrontier()
+    q.push((0, 0))
+    if q.pop() != (0, 0):
+        return False
+    grid, start, goal = maze_lab05()
+    path, exp = mod.bfs(grid, start, goal)
+    return bool(path) and path[-1] == goal and len(exp) > 0
+
+
+def _smoke_lab06(mod: ModuleType) -> bool:
+    from flightlab.worlds import manhattan, terrain_lab06
+
+    cmap, start, goal = terrain_lab06()
+    path, exp, cost = mod.dijkstra(cmap, start, goal)
+    return bool(path) and np.isfinite(cost) and len(exp) > 0
+
+
+def _smoke_lab07(mod: ModuleType) -> bool:
+    from flightlab.worlds import forest_lab07
+
+    field, start, goal = forest_lab07()
+    path, nodes, parents = mod.rrt(field, start, goal, seed=0, n_iter=200)
+    return len(nodes) >= 2 and len(parents) == len(nodes)
+
+
+def _smoke_lab08(mod: ModuleType) -> bool:
+    from flightlab.dynamics import PlanarQuadrotor
+
+    plant = PlanarQuadrotor()
+    x, u = mod.flat_to_xu(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, plant)
+    t, xs, us = mod.sample_flat_traj(plant, dt=0.1, scale=1.0)
+    return np.asarray(x).size == 6 and np.asarray(u).size == 2 and len(t) > 3
+
+
+def _smoke_lab09(mod: ModuleType) -> bool:
+    us = np.array([[1.0, -2.0]])
+    return abs(mod.peak_rotor(us) - 2.0) < 1e-9
+
+
+_register(
+    LabSpec(
+        key="lab05",
+        number="05",
+        student_path=ROOT / "labs/lab05_search_visualized/lab.py",
+        reference_module="reference.lab05_search_visualized",
+        smoke=_smoke_lab05,
+    ),
+    "05",
+    "lab05_search_visualized",
+    "search",
+)
+_register(
+    LabSpec(
+        key="lab06",
+        number="06",
+        student_path=ROOT / "labs/lab06_heuristics/lab.py",
+        reference_module="reference.lab06_heuristics",
+        smoke=_smoke_lab06,
+    ),
+    "06",
+    "lab06_heuristics",
+    "heuristics",
+)
+_register(
+    LabSpec(
+        key="lab07",
+        number="07",
+        student_path=ROOT / "labs/lab07_rrt/lab.py",
+        reference_module="reference.lab07_rrt",
+        smoke=_smoke_lab07,
+    ),
+    "07",
+    "lab07_rrt",
+    "rrt",
+)
+_register(
+    LabSpec(
+        key="lab08",
+        number="08",
+        student_path=ROOT / "labs/lab08_flatness/lab.py",
+        reference_module="reference.lab08_flatness",
+        smoke=_smoke_lab08,
+    ),
+    "08",
+    "lab08_flatness",
+    "flatness",
+)
+_register(
+    LabSpec(
+        key="lab09",
+        number="09",
+        student_path=ROOT / "labs/lab09_time_scaling/lab.py",
+        reference_module="reference.lab09_time_scaling",
+        smoke=_smoke_lab09,
+    ),
+    "09",
+    "lab09_time_scaling",
+    "time_scaling",
+)
+
+
 def _banner(spec: LabSpec, reason: str) -> None:
     msg = (
         f"using reference {spec.key} — your Lab {spec.number} isn't done or isn't passing"

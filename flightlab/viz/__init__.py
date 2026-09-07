@@ -13,17 +13,22 @@ from flightlab.viz.core import (
     save_thumb,
     scope,
 )
+from flightlab.viz.planning import animate_rrt, animate_search, expansion_heatmaps, thrust_scaling_figure
 
 __all__ = [
     "MEDIA",
     "animate_falling_mass",
     "animate_planar_quad",
     "animate_quad3d",
+    "animate_rrt",
+    "animate_search",
     "ensure_media",
+    "expansion_heatmaps",
     "falling_mass_figure",
     "gain_sweep_figure",
     "lqr_vs_pd_figure",
     "save_gif",
     "save_thumb",
     "scope",
+    "thrust_scaling_figure",
 ]

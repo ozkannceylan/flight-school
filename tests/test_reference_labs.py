@@ -23,3 +23,23 @@ def test_lab03_reference_check():
 
 def test_lab04_reference_check():
     assert run_check("labs/lab04_lqr/check.py", reference=True) == 0
+
+
+def test_lab05_reference_check():
+    assert run_check("labs/lab05_search_visualized/check.py", reference=True) == 0
+
+
+def test_lab06_reference_check():
+    assert run_check("labs/lab06_heuristics/check.py", reference=True) == 0
+
+
+def test_lab07_reference_check():
+    assert run_check("labs/lab07_rrt/check.py", reference=True) == 0
+
+
+def test_lab08_reference_check():
+    assert run_check("labs/lab08_flatness/check.py", reference=True) == 0
+
+
+def test_lab09_reference_check():
+    assert run_check("labs/lab09_time_scaling/check.py", reference=True) == 0

@@ -51,6 +51,22 @@ def test_get_lab04_lqr_stable():
     assert np.max(ev.real) < 0
 
 
+def test_lab08_falls_back_to_reference_lqr():
+    """PLAN Phase 2 exit: unfinished Lab 04 must not block Lab 08."""
+    from flightlab.control import linearize
+    from flightlab.dynamics import PlanarQuadrotor
+
+    lab04 = get("lab04")
+    lab08 = get("lab08")
+    plant = PlanarQuadrotor()
+    t, xs, _us = lab08.sample_flat_traj(plant, dt=0.1, scale=1.0)
+    assert len(t) > 5 and xs.shape[1] == 6
+    A, B = linearize(plant.f, plant.reset(), plant.hover_input())
+    Q, R = lab04.design_QR()
+    K, _ = lab04.lqr(A, B, Q, R)
+    assert K.shape == (2, 6)
+
+
 def test_unknown_lab_raises():
     import pytest
 

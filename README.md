@@ -32,6 +32,16 @@ make check04 && make lab04
 make check02 && make lab02
 ```
 
+Phase 2 (search → A* → RRT → flatness → time scaling):
+
+```bash
+make check05 && make lab05
+make check06 && make lab06
+make check07 && make lab07
+make check08 && make lab08
+make check09 && make lab09
+```
+
 `python -m pytest` is the same core suite as `make test`.
 
 ## How a lab works
@@ -60,5 +70,5 @@ tests/         core + every reference check
 docs/          ARCHITECTURE, LECTURE_LAB_MAP, PLAN, BACKLOG
 ```
 
-Built labs right now: **00–04** (Phase 1 control). The rest of the map is in
-[`docs/LECTURE_LAB_MAP.md`](docs/LECTURE_LAB_MAP.md).
+Built labs right now: **00–09** (Phase 1 control + Phase 2 planning). The rest
+of the map is in [`docs/LECTURE_LAB_MAP.md`](docs/LECTURE_LAB_MAP.md).

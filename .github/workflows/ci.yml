@@ -24,3 +24,8 @@ jobs:
           python labs/lab02_into_3d/check.py --reference
           python labs/lab03_cascade_pd/check.py --reference
           python labs/lab04_lqr/check.py --reference
+          python labs/lab05_search_visualized/check.py --reference
+          python labs/lab06_heuristics/check.py --reference
+          python labs/lab07_rrt/check.py --reference
+          python labs/lab08_flatness/check.py --reference
+          python labs/lab09_time_scaling/check.py --reference
