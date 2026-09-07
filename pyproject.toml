@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flightlab"
+version = "0.1.0"
+description = "Shared NumPy core for flight-school robotics simulation labs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "flight-school contributors" }]
+dependencies = [
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "scipy>=1.10",
+    "imageio>=2.31",
+    "pillow>=9.5",
+    "pytest>=7.4",
+]
+
+[project.urls]
+Repository = "https://github.com/ozkannceylan/flight-school"
+
+[tool.setuptools.packages.find]
+include = ["flightlab*", "reference*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]

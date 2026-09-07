@@ -1,0 +1,23 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install -e .
+      - name: Core tests + reference labs
+        env:
+          MPLBACKEND: Agg
+        run: |
+          python -m pytest -q
+          python labs/lab00_hello_state/check.py --reference
+          python labs/lab01_planar_dynamics/check.py --reference

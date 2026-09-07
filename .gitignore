@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Generated media (keep thumbnails)
+media/*.gif
+media/*.mp4
+!media/*_thumb.png
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
