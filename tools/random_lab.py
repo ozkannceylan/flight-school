@@ -26,6 +26,13 @@ BUILT = {
     "13": "lab13_mcl",
     "14": "lab14_mapping",
     "15": "lab15_slam",
+    "16": "lab16_camera",
+    "17": "lab17_optical_flow",
+    "18": "lab18_mlp",
+    "19": "lab19_sgd",
+    "20": "lab20_overfit",
+    "21": "lab21_cnn",
+    "22": "lab22_rl",
 }
 
 

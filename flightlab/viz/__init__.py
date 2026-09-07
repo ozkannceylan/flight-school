@@ -22,6 +22,15 @@ from flightlab.viz.estimation import (
     slam_before_after,
 )
 from flightlab.viz.planning import animate_rrt, animate_search, expansion_heatmaps, thrust_scaling_figure
+from flightlab.viz.vision import (
+    camera_world_figure,
+    descent_figure,
+    filter_grid_figure,
+    flow_quiver_figure,
+    learning_curves_figure,
+    mlp_flight_figure,
+    rl_curve_figure,
+)
 
 __all__ = [
     "MEDIA",
@@ -34,7 +43,14 @@ __all__ = [
     "animate_quad3d",
     "animate_rrt",
     "animate_search",
+    "camera_world_figure",
+    "descent_figure",
+    "filter_grid_figure",
+    "flow_quiver_figure",
     "kf_pf_figure",
+    "learning_curves_figure",
+    "mlp_flight_figure",
+    "rl_curve_figure",
     "slam_before_after",
     "ensure_media",
     "expansion_heatmaps",

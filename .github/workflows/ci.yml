@@ -35,3 +35,10 @@ jobs:
           python labs/lab13_mcl/check.py --reference
           python labs/lab14_mapping/check.py --reference
           python labs/lab15_slam/check.py --reference
+          python labs/lab16_camera/check.py --reference
+          python labs/lab17_optical_flow/check.py --reference
+          python labs/lab18_mlp/check.py --reference
+          python labs/lab19_sgd/check.py --reference
+          python labs/lab20_overfit/check.py --reference
+          python labs/lab21_cnn/check.py --reference
+          python labs/lab22_rl/check.py --reference

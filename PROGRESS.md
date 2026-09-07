@@ -32,13 +32,13 @@ through `flightlab.resolve` until you fill them.
 
 ## Phase 4 — Vision, Learning, RL
 
-- [ ] **Lab 16** — The Camera Is a Matrix *(not built yet)*
-- [ ] **Lab 17** — Motion From Brightness *(not built yet)*
-- [ ] **Lab 18** — An MLP You Can Read *(not built yet)*
-- [ ] **Lab 19** — The Shape of the Descent *(not built yet)*
-- [ ] **Lab 20** — When Fitting Better Means Knowing Less *(not built yet)*
-- [ ] **Lab 21** — Weight Sharing Earns Its Keep *(not built yet)*
-- [ ] **Lab 22** — Learning to Hover Without Being Told How *(not built yet)*
+- [ ] **Lab 16** — The Camera Is a Matrix
+- [ ] **Lab 17** — Motion From Brightness
+- [ ] **Lab 18** — An MLP You Can Read
+- [ ] **Lab 19** — The Shape of the Descent
+- [ ] **Lab 20** — When Fitting Better Means Knowing Less
+- [ ] **Lab 21** — Weight Sharing Earns Its Keep
+- [ ] **Lab 22** — Learning to Hover Without Being Told How
 
 ## Phase 5 — Reflection
 

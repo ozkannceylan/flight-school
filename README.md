@@ -53,6 +53,18 @@ make check14 && make lab14
 make check15 && make lab15
 ```
 
+Phase 4 (camera → flow → MLP → SGD → overfit → CNN → RL):
+
+```bash
+make check16 && make lab16
+make check17 && make lab17
+make check18 && make lab18
+make check19 && make lab19
+make check20 && make lab20
+make check21 && make lab21
+make check22 && make lab22
+```
+
 `python -m pytest` is the same core suite as `make test`.
 
 ## How a lab works
@@ -81,5 +93,6 @@ tests/         core + every reference check
 docs/          ARCHITECTURE, LECTURE_LAB_MAP, PLAN, BACKLOG
 ```
 
-Built labs right now: **00–15** (control + planning + estimation). The rest
-of the map is in [`docs/LECTURE_LAB_MAP.md`](docs/LECTURE_LAB_MAP.md).
+Built labs right now: **00–22** (control + planning + estimation + vision/ML/RL).
+Lab 23 (ethics / red-team) is Phase 5. The map is in
+[`docs/LECTURE_LAB_MAP.md`](docs/LECTURE_LAB_MAP.md).

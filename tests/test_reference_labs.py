@@ -67,3 +67,31 @@ def test_lab14_reference_check():
 
 def test_lab15_reference_check():
     assert run_check("labs/lab15_slam/check.py", reference=True) == 0
+
+
+def test_lab16_reference_check():
+    assert run_check("labs/lab16_camera/check.py", reference=True) == 0
+
+
+def test_lab17_reference_check():
+    assert run_check("labs/lab17_optical_flow/check.py", reference=True) == 0
+
+
+def test_lab18_reference_check():
+    assert run_check("labs/lab18_mlp/check.py", reference=True) == 0
+
+
+def test_lab19_reference_check():
+    assert run_check("labs/lab19_sgd/check.py", reference=True) == 0
+
+
+def test_lab20_reference_check():
+    assert run_check("labs/lab20_overfit/check.py", reference=True) == 0
+
+
+def test_lab21_reference_check():
+    assert run_check("labs/lab21_cnn/check.py", reference=True) == 0
+
+
+def test_lab22_reference_check():
+    assert run_check("labs/lab22_rl/check.py", reference=True) == 0

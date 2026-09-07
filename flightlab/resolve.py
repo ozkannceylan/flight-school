@@ -416,6 +416,151 @@ _register(
 )
 
 
+def _smoke_lab16(mod: ModuleType) -> bool:
+    import numpy as np
+
+    from flightlab.render import camera_from_planar, default_K, landmarks_lab16, pose_lab16
+
+    K = default_K()
+    py, pz, th = pose_lab16()
+    R, C = camera_from_planar(py, pz, th)
+    uv = mod.project(K, R, C, landmarks_lab16(3))
+    return uv.shape[1] == 2 and np.isfinite(uv).all()
+
+
+def _smoke_lab17(mod: ModuleType) -> bool:
+    import numpy as np
+
+    I = np.zeros((20, 20))
+    I[8:12, 8:12] = 1.0
+    fl = mod.lucas_kanade(I, I, np.array([[10.0, 10.0]]), win=3)
+    return np.asarray(fl).shape == (1, 2)
+
+
+def _smoke_lab18(mod: ModuleType) -> bool:
+    import numpy as np
+
+    rng = np.random.default_rng(0)
+    p = mod.init_params(rng)
+    y, cache = mod.forward(rng.normal(size=(4, 6)), p["W1"], p["b1"], p["W2"], p["b2"])
+    return y.shape == (4, 2)
+
+
+def _smoke_lab19(mod: ModuleType) -> bool:
+    import numpy as np
+
+    w = mod.sgd_step(np.zeros(2), np.ones(2), 0.1)
+    return w.shape == (2,) and np.isfinite(w).all()
+
+
+def _smoke_lab20(mod: ModuleType) -> bool:
+    import numpy as np
+
+    Phi = mod.poly_features(np.linspace(-1, 1, 8), 3)
+    w = mod.fit_poly(Phi, np.zeros(8), l2=0.1)
+    return w.size == 4 and np.isfinite(w).all()
+
+
+def _smoke_lab21(mod: ModuleType) -> bool:
+    import numpy as np
+
+    out = mod.conv2d(np.ones((2, 6, 6)), np.ones((1, 3, 3)))
+    return out.shape == (2, 1, 4, 4)
+
+
+def _smoke_lab22(mod: ModuleType) -> bool:
+    import numpy as np
+
+    mu, std = mod.cem_update(np.zeros((5, 3)), np.arange(5.0), 2)
+    return mu.size == 3 and np.all(std > 0)
+
+
+_register(
+    LabSpec(
+        key="lab16",
+        number="16",
+        student_path=ROOT / "labs/lab16_camera/lab.py",
+        reference_module="reference.lab16_camera",
+        smoke=_smoke_lab16,
+    ),
+    "16",
+    "lab16_camera",
+    "camera",
+)
+_register(
+    LabSpec(
+        key="lab17",
+        number="17",
+        student_path=ROOT / "labs/lab17_optical_flow/lab.py",
+        reference_module="reference.lab17_optical_flow",
+        smoke=_smoke_lab17,
+    ),
+    "17",
+    "lab17_optical_flow",
+    "optical_flow",
+)
+_register(
+    LabSpec(
+        key="lab18",
+        number="18",
+        student_path=ROOT / "labs/lab18_mlp/lab.py",
+        reference_module="reference.lab18_mlp",
+        smoke=_smoke_lab18,
+    ),
+    "18",
+    "lab18_mlp",
+    "mlp",
+)
+_register(
+    LabSpec(
+        key="lab19",
+        number="19",
+        student_path=ROOT / "labs/lab19_sgd/lab.py",
+        reference_module="reference.lab19_sgd",
+        smoke=_smoke_lab19,
+    ),
+    "19",
+    "lab19_sgd",
+    "sgd",
+)
+_register(
+    LabSpec(
+        key="lab20",
+        number="20",
+        student_path=ROOT / "labs/lab20_overfit/lab.py",
+        reference_module="reference.lab20_overfit",
+        smoke=_smoke_lab20,
+    ),
+    "20",
+    "lab20_overfit",
+    "overfit",
+)
+_register(
+    LabSpec(
+        key="lab21",
+        number="21",
+        student_path=ROOT / "labs/lab21_cnn/lab.py",
+        reference_module="reference.lab21_cnn",
+        smoke=_smoke_lab21,
+    ),
+    "21",
+    "lab21_cnn",
+    "cnn",
+)
+_register(
+    LabSpec(
+        key="lab22",
+        number="22",
+        student_path=ROOT / "labs/lab22_rl/lab.py",
+        reference_module="reference.lab22_rl",
+        smoke=_smoke_lab22,
+    ),
+    "22",
+    "lab22_rl",
+    "rl",
+)
+
+
 def _banner(spec: LabSpec, reason: str) -> None:
     msg = (
         f"using reference {spec.key} — your Lab {spec.number} isn't done or isn't passing"

@@ -67,3 +67,31 @@ def test_lab14_student_todos_are_red():
 
 def test_lab15_student_todos_are_red():
     assert run_check("labs/lab15_slam/check.py", reference=False) == 1
+
+
+def test_lab16_student_todos_are_red():
+    assert run_check("labs/lab16_camera/check.py", reference=False) == 1
+
+
+def test_lab17_student_todos_are_red():
+    assert run_check("labs/lab17_optical_flow/check.py", reference=False) == 1
+
+
+def test_lab18_student_todos_are_red():
+    assert run_check("labs/lab18_mlp/check.py", reference=False) == 1
+
+
+def test_lab19_student_todos_are_red():
+    assert run_check("labs/lab19_sgd/check.py", reference=False) == 1
+
+
+def test_lab20_student_todos_are_red():
+    assert run_check("labs/lab20_overfit/check.py", reference=False) == 1
+
+
+def test_lab21_student_todos_are_red():
+    assert run_check("labs/lab21_cnn/check.py", reference=False) == 1
+
+
+def test_lab22_student_todos_are_red():
+    assert run_check("labs/lab22_rl/check.py", reference=False) == 1

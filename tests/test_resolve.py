@@ -95,6 +95,21 @@ def test_lab15_loop_closure_cuts_ate():
     assert a1 <= 0.40 * a0
 
 
+def test_lab22_falls_back_to_reference_lqr():
+    """Unfinished Lab 04 must not block the Lab 22 LQR baseline."""
+    lab04 = get("lab04")
+    lab22 = get("lab22")
+    from flightlab.control import linearize
+    from flightlab.dynamics import PlanarQuadrotor
+
+    plant = PlanarQuadrotor()
+    A, B = linearize(plant.f, plant.reset(), plant.hover_input())
+    Q, R = lab04.design_QR()
+    K, _ = lab04.lqr(A, B, Q, R)
+    r = lab22.episode_return(K, plant, plant.reset())
+    assert np.isfinite(r)
+
+
 def test_unknown_lab_raises():
     import pytest
 
