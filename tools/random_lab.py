@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+"""Pick an unlocked, unfinished lab (``make random``)."""
+
+from __future__ import annotations
+
+import random
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+BUILT = {
+    "00": "lab00_hello_state",
+    "01": "lab01_planar_dynamics",
+    "02": "lab02_into_3d",
+    "03": "lab03_cascade_pd",
+    "04": "lab04_lqr",
+    "05": "lab05_search_visualized",
+    "06": "lab06_heuristics",
+    "07": "lab07_rrt",
+    "08": "lab08_flatness",
+    "09": "lab09_time_scaling",
+    "10": "lab10_set_belief",
+    "11": "lab11_bayes",
+    "12": "lab12_kf_pf",
+    "13": "lab13_mcl",
+    "14": "lab14_mapping",
+    "15": "lab15_slam",
+    "16": "lab16_camera",
+    "17": "lab17_optical_flow",
+    "18": "lab18_mlp",
+    "19": "lab19_sgd",
+    "20": "lab20_overfit",
+    "21": "lab21_cnn",
+    "22": "lab22_rl",
+    "23": "lab23_red_team",
+}
+
+
+def main() -> int:
+    text = (ROOT / "PROGRESS.md").read_text(encoding="utf-8")
+    open_ids = re.findall(r"- \[ \] \*\*Lab (\d+)\*\*", text)
+    unlocked = [n.zfill(2) for n in open_ids if n.zfill(2) in BUILT]
+    if not unlocked:
+        print("all done (or nothing built yet).")
+        return 0
+    choice = random.choice(unlocked)
+    folder = BUILT[choice]
+    print(f"Lab {choice} — run: make lab{choice}   (labs/{folder})")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
